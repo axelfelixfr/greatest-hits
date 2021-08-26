@@ -8,8 +8,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-
-
 label {
   font-family: 'Work Sans', sans-serif;
   font-size: 22px;
@@ -47,13 +45,12 @@ form.card{
   border: none;
 }
 
-.letra {
-  white-space: pre-wrap;
-}
-
-.card img {
+/* .card img {
   width: 100%;
   margin-bottom: 1rem;
+} */
+.img-album {
+  max-width: 125px;
 }
 h2 {
   margin-bottom: 2rem;

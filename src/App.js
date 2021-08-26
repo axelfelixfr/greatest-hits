@@ -1,11 +1,14 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { Form } from './components/Form';
+import { GreatestHits } from './components/GreatestHits';
 
 function App() {
   // Definir el state
   // const [searchLyrics, setSearchLyrics] = useState({});
   const [searchArtist, setSearchArtist] = useState('');
+  const [hitsArtist, setHitsArtist] = useState([]);
+  const [notFound, setNotFound] = useState(false);
 
   useEffect(() => {
     if (searchArtist.trim() === '') return;
@@ -28,36 +31,35 @@ function App() {
         }
       });
 
-      if (!hits.length) {
-        return console.log('NO hay resultados');
+      if (!hits.length || status !== 200) {
+        setNotFound(true);
+        return;
       }
-      console.log(status, hits);
-      // const options = {
-      //   method: 'GET',
-      //   url: 'https://genius.p.rapidapi.com/search',
-      //   params: { q: artist },
-      //   headers: {
-      //     'x-rapidapi-host': 'genius.p.rapidapi.com',
-      //     'x-rapidapi-key': apiKey
-      //   }
-      // };
-
-      // axios
-      //   .request(options)
-      //   .then(function (response) {
-      //     console.log(response);
-      //   })
-      //   .catch(function (error) {
-      //     console.error(error);
-      //   });
+      setNotFound(false);
+      setHitsArtist(hits);
     };
 
     consultLyrics();
   }, [searchArtist]);
 
+  const componentRendered = notFound ? (
+    <p className="alert alert-danger text-center p-2 mx-5">
+      No se encontro nada del artista buscado
+    </p>
+  ) : (
+    <GreatestHits hitsArtist={hitsArtist} searchArtist={searchArtist} />
+  );
+
   return (
     <>
       <Form setSearchArtist={setSearchArtist} />
+
+      <div className="container">
+        <div className="row my-3">
+          <div className="col-md-6"></div>
+          <div className="col-md-6">{componentRendered}</div>
+        </div>
+      </div>
     </>
   );
 }
