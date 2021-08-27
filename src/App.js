@@ -2,52 +2,83 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { Form } from './components/Form';
 import { GreatestHits } from './components/GreatestHits';
+import { Info } from './components/Info';
 
 function App() {
   // Definir el state
-  // const [searchLyrics, setSearchLyrics] = useState({});
   const [searchArtist, setSearchArtist] = useState('');
   const [hitsArtist, setHitsArtist] = useState([]);
   const [notFound, setNotFound] = useState(false);
+  const [info, setInfo] = useState({});
 
   useEffect(() => {
-    if (searchArtist.trim() === '') return;
+    if (searchArtist.trim() === '') return null;
 
-    console.log('Si paso');
-    const consultLyrics = async () => {
+    const consultArtist = async () => {
       const apiKey = process.env.REACT_APP_API_LYRICS;
 
-      const url = `https://genius.p.rapidapi.com/search?q=${searchArtist}`;
+      const urlHits = `https://genius.p.rapidapi.com/search?q=${searchArtist}`;
 
-      const {
-        data: {
-          meta: { status },
-          response: { hits }
-        }
-      } = await axios.get(url, {
-        headers: {
-          'x-rapidapi-host': 'genius.p.rapidapi.com',
-          'x-rapidapi-key': apiKey
-        }
-      });
+      const urlInfo = `https://www.theaudiodb.com/api/v1/json/1/search.php?s=${searchArtist}`;
 
-      if (!hits.length || status !== 200) {
-        setNotFound(true);
-        return;
-      }
-      setNotFound(false);
-      setHitsArtist(hits);
+      axios
+        .all([
+          axios.get(urlHits, {
+            headers: {
+              'x-rapidapi-host': 'genius.p.rapidapi.com',
+              'x-rapidapi-key': apiKey
+            }
+          }),
+          axios.get(urlInfo)
+        ])
+        .then(
+          axios.spread(
+            (
+              {
+                data: {
+                  meta: { status },
+                  response: { hits }
+                }
+              },
+              inform
+            ) => {
+              if (!hits.length || status !== 200) {
+                setNotFound(true);
+                setHitsArtist([]);
+                return;
+              }
+              setNotFound(false);
+              setHitsArtist(hits);
+              setInfo(inform.data.artists[0]);
+            }
+          )
+        )
+        .catch(error => {
+          setNotFound(true);
+          console.log(error);
+        });
     };
 
-    consultLyrics();
+    consultArtist();
   }, [searchArtist]);
 
-  const componentRendered = notFound ? (
-    <p className="alert alert-danger text-center p-2 mx-5">
-      No se encontro nada del artista buscado
-    </p>
+  const componentsRendered = notFound ? (
+    <div className="col-md-8 mx-auto">
+      <p className="alert alert-danger text-center p-2 mx-5">
+        No se encontro nada del artista buscado
+      </p>
+    </div>
   ) : (
-    <GreatestHits hitsArtist={hitsArtist} searchArtist={searchArtist} />
+    <>
+      <div className="col-md-6">
+        <Info info={info} />
+      </div>
+      <div className="col-md-6">
+        {!!hitsArtist.length && (
+          <GreatestHits hitsArtist={hitsArtist} searchArtist={searchArtist} />
+        )}
+      </div>
+    </>
   );
 
   return (
@@ -55,10 +86,7 @@ function App() {
       <Form setSearchArtist={setSearchArtist} />
 
       <div className="container">
-        <div className="row my-3">
-          <div className="col-md-6"></div>
-          <div className="col-md-6">{componentRendered}</div>
-        </div>
+        <div className="row my-3">{componentsRendered}</div>
       </div>
     </>
   );

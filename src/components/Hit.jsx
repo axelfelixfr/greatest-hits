@@ -9,23 +9,29 @@ export const Hit = ({ hit }) => {
     <div className="card">
       <div className="card-header" id={idHeading}>
         <h2 className="mb-0">
-          <small>{full_title}</small>
+          <small>
+            {full_title} <i className="fas fa-compact-disc"></i>
+          </small>
         </h2>
       </div>
 
       <div className="collapse show">
         <div className="card-body">
-          <div class="media position-relative">
+          <div className="media position-relative">
             <img
               src={song_art_image_thumbnail_url}
-              class="mr-3 img-thumbnail img-album"
+              className="mr-3 img-thumbnail img-album"
               alt={full_title}
             />
-            <div class="media-body">
-              <h5 class="mt-0">{title}</h5>
-              <p>Lyrics:</p>
-              <a href="#!" class="stretched-link">
-                {url}
+            <div className="media-body">
+              <h5 className="mt-0 text-left mx-auto">{title}</h5>
+              <a
+                href={url}
+                className="btn btn-danger button-music"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Ver letra <i className="fab fa-itunes-note fa-size-xs"></i>
               </a>
             </div>
           </div>

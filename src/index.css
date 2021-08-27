@@ -45,19 +45,22 @@ form.card{
   border: none;
 }
 
-/* .card img {
+.img-artist {
   width: 100%;
   margin-bottom: 1rem;
-} */
+}
+
 .img-album {
   max-width: 125px;
 }
+
 h2 {
   margin-bottom: 2rem;
   font-family: 'Work Sans', sans-serif;
   border-bottom: 3px solid #EB6864;
   padding-bottom:10px;
 }
+
 .card-body i {
   font-size: 3rem;
   margin-right: 3rem;
@@ -66,9 +69,15 @@ h2 {
 .fa-facebook {
   color: #3b5998;
 }
+
 .fa-twitter {
   color: #0084b4;
 }
+
 .fa-lastfm {
   color: #d51007;
+}
+
+.button-music {
+  max-width: 90px;
 }
