@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 export const Hit = ({ hit }) => {
   // Se desestructura el hit que se obtuvo
@@ -41,4 +42,8 @@ export const Hit = ({ hit }) => {
       </div>
     </div>
   );
+};
+
+Hit.propTypes = {
+  hit: PropTypes.object.isRequired
 };

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Hit } from './Hit';
 
 export const GreatestHits = ({ hitsArtist, searchArtist }) => {
@@ -13,4 +14,9 @@ export const GreatestHits = ({ hitsArtist, searchArtist }) => {
       </div>
     </>
   );
+};
+
+GreatestHits.propTypes = {
+  hitsArtist: PropTypes.array.isRequired,
+  searchArtist: PropTypes.string.isRequired
 };

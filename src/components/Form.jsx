@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-// import { useForm } from '../hooks/useForm';
+import PropTypes from 'prop-types';
 
 export const Form = ({ setSearchArtist }) => {
   const [error, setError] = useState(false);
@@ -63,4 +63,8 @@ export const Form = ({ setSearchArtist }) => {
       </div>
     </div>
   );
+};
+
+Form.propTypes = {
+  setSearchArtist: PropTypes.func.isRequired
 };
