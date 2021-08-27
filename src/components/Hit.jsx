@@ -1,8 +1,10 @@
 import React from 'react';
 
 export const Hit = ({ hit }) => {
+  // Se desestructura el hit que se obtuvo
   const { full_title, song_art_image_thumbnail_url, title, url } = hit;
 
+  // Quitamos los espacios del título
   const idHeading = full_title.replace(/\s+/g, '');
 
   return (

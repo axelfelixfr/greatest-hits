@@ -14,8 +14,10 @@ export const Info = ({ info }) => {
     strLastFMChart
   } = info;
 
+  // Si la biografía no esta en español, muestra la original (EN)
   const biographyArtist = strBiographyES ? strBiographyES : strBiographyEN;
 
+  // Si no hay genero, entonces muestra 'Género desconocido'
   const genreArtist = strGenre ? `Género: ${strGenre}` : 'Género desconocido';
 
   return (
